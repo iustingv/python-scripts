@@ -45,15 +45,24 @@ def main():
         if args.apply:
             print(f"✔ Requested to {args.action} instances.")
         else:
-            print(f"(DryRun) You have permission to {args.action} these instances. Re-run with --apply to execute.")
+            print(f"(DryRun) Permission check passed to {args.action}. Re-run with --apply to execute.")
     except ClientError as e:
         # DryRun passes by raising DryRunOperation if allowed; handle AccessDenied, etc.
         code = e.response.get("Error", {}).get("Code", "")
         msg = e.response.get("Error", {}).get("Message", "")
+
         if code == "DryRunOperation":
+            # Allowed to perform the action, but DryRun=True prevented changes
             print(f"(DryRun) Allowed to {args.action}. Re-run with --apply to actually do it.")
-        else:
-            print(f"❌ AWS error: {code} - {msg}")
+            return
+
+        # NEW: graceful read-only behavior (no perms -> exit cleanly without looking like an error)
+        if code in {"UnauthorizedOperation", "AccessDenied", "AccessDeniedException"}:
+            print("ℹ️ Read-only mode: no permissions to start/stop. Matched instances shown above; no action taken.")
+            return
+
+        # Any other unexpected AWS error
+        print(f"❌ AWS error: {code} - {msg}")
 
 if __name__ == "__main__":
     main()
