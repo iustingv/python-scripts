@@ -1,21 +1,31 @@
-### ec2_toggle_by_tag.py (read-only by design)
+# python-scripts
 
-Demonstrates how to **find EC2 instances by tag** and run a **start/stop action** safely.
+![Python](https://img.shields.io/badge/python-3.9%2B-blue)
+![boto3](https://img.shields.io/badge/boto3-aws--sdk-orange)
+![License: MIT](https://img.shields.io/badge/license-MIT-green)
 
-- Performs a **DryRun** by default (no changes made).
-- If `--apply` is used but the IAM user has no permissions, it exits gracefully with:  
-  *“ℹ️ Read-only mode: no permissions to start/stop. Matched instances shown above; no action taken.”*
-- This makes it safe for demo/portfolio use — it shows AWS error-handling and IAM awareness without requiring destructive permissions.
+Small Python utilities + AWS boto3 practice scripts.  
+All scripts are **safe by default** (DryRun or read-only), making this repository portfolio-ready.
 
-**Required IAM permissions (read-only):**
-- `ec2:DescribeInstances`
-- (optional) `sts:GetCallerIdentity` to show which profile/region is being used
+---
 
-**Usage examples**
-```bash
-# DryRun only — lists instances and confirms permission check
-python ec2_toggle_by_tag.py stop Name=Linux2-Training
+## Setup
 
-# Attempt real apply — if no permissions, exits gracefully in read-only mode
-python ec2_toggle_by_tag.py stop Name=Linux2-Training --apply
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install -U pip -r requirements.txt
+    aws configure   # set AWS access key, secret, region (e.g., us-east-1)
+
+---
+
+## Notes
+
+- Requires configured AWS credentials.  
+- ⚠️ Safe by default — destructive actions use DryRun unless `--apply` is passed.
+
+---
+
+## License
+
+MIT
 
