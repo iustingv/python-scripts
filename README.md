@@ -8,8 +8,8 @@ Demonstrates how to **find EC2 instances by tag** and run a **start/stop action*
 - This makes it safe for demo/portfolio use — it shows AWS error-handling and IAM awareness without requiring destructive permissions.
 
 **Required IAM permissions (read-only):**
-- `ec2:DescribeInstances`  
-- (optional) `sts:GetCallerIdentity` to show which profile/region is being used  
+- `ec2:DescribeInstances`
+- (optional) `sts:GetCallerIdentity` to show which profile/region is being used
 
 **Usage examples**
 ```bash
