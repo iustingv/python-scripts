@@ -1,2 +1,4 @@
 boto3==1.40.27
+botocore==1.40.27
 requests==2.32.5
+
