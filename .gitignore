@@ -1,6 +1,7 @@
-.venv/
 __pycache__/
 *.pyc
-*.txt
+.venv/
+.DS_Store
+*.swp
 *.csv
-*.env
+logs/
